@@ -1,0 +1,80 @@
+version: "3.7"
+services:
+
+  app:
+    build:
+      args:
+      # replace with your user and uid
+        user: rahman
+        uid: 1000
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: 'app'
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - proxynet
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    working_dir: /var/www/html
+    volumes:
+        - .:/var/www/html
+        - ./docker/nginx/log:/var/log/nginx
+        - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - "8020:80"
+    networks:
+      - proxynet
+
+  maria-db:
+    image: mariadb:10.5.9
+    container_name: 'maria-db'
+    restart: unless-stopped
+    ports:
+      - '8040:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_USER: 'homestead'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_DATABASE: 'homestead'
+    volumes:
+      - db_data:/var/lib/mysql
+      # - ./my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - proxynet
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: unless-stopped
+    depends_on:
+      - maria-db
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: mysql
+      ADMINER_DEFAULT_DB_HOST: maria-db
+      ADMINER_DEFAULT_DB_NAME: homestead
+      ADMINER_DEFAULT_SERVER: maria-db
+      ADMINER_DESIGN: nette
+      ADMINER_PLUGINS: tables-filter tinymce
+    ports:
+      - 8030:8080
+    networks:
+    - proxynet
+
+volumes:
+  db_data:
+
+# networks:
+#   app-network:
+#     driver: bridge
+
+networks:
+  proxynet:
+    name: mynet
+    driver: bridge
+
