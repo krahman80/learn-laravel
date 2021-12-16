@@ -4,45 +4,89 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>miligram</title>
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-        <!-- CSS Reset -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-        <!-- Milligram CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+
+        <!-- Styles -->
         <style>
-            body{font-size:14px;color: #2c2c2c;background: #fafafa;font-family: 'Nunito', serif;}
-            .container{margin-top:1.4rem; margin-bottom:2rem;}
+            html, body {
+                background-color: #fff;
+                color: #636b6f;
+                font-family: 'Nunito', sans-serif;
+                font-weight: 200;
+                height: 100vh;
+                margin: 0;
+            }
+            .full-height {
+                height: 100vh;
+            }
+            .flex-center {
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+            .position-ref {
+                position: relative;
+            }
+            .top-right {
+                position: absolute;
+                right: 10px;
+                top: 18px;
+            }
+            .content {
+                text-align: center;
+            }
+            .title {
+                font-size: 84px;
+            }
+            .links > a {
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: .1rem;
+                text-decoration: none;
+                text-transform: uppercase;
+            }
+            .m-b-md {
+                margin-bottom: 30px;
+            }
         </style>
     </head>
     <body>
-        <section class="container">
-            <h3 class="title">Typography</h3>
-            <p class="description">CSS3 introduces a few new units, including the <code>rem</code> unit, which stands for <em>"root em"</em>. The <code>rem</code> unit is relative to the font-size of the root element <code>html</code> . That means that we can define a single font size on the root element, and define all <code>rem</code> units to be a percentage of that. The typography has <code>font-size</code> defined in 1.6rem (16px) and <code>line-height</code> in 1.6 (24px). <strong>Milligram</strong> uses the <code>font-family</code><a href="https://www.google.com/fonts/specimen/Roboto" title="Roboto by Christian Robertson" target="_blank" rel="noopener"> Roboto</a>, created by <u>Christian Robertson</u>, and provided by Google.</p>
-            <div class="row">
-              <div class="column">
-                  <div class="box">
-                      <h3>Test</h3>
-                      <p>
-                        CSS3 introduces a few new units, including the rem unit, which stands for "root em". The rem unit is relative to the font-size of the root element html . That means that we can define a single font size on the root element, and define all rem units to be a percentage of that. The typography has font-size defined in 1.6rem (16px) and line-height in 1.6 (24px). Milligram uses the font-family Roboto, created by Christian Robertson, and provided by Google.
-                      </p>
-                  </div>
+        <div class="flex-center position-ref full-height">
+            @if (Route::has('login'))
+                <div class="top-right links">
+                    @auth
+                        <a href="{{ url('/home') }}">Home</a>
+                    @else
+                        <a href="{{ route('login') }}">Login</a>
 
-              </div>
-              
-              <div class="column">
-                <h3>Test</h3>
-                <p>
-                    CSS3 introduces a few new units, including the rem unit, which stands for "root em". The rem unit is relative to the font-size of the root element html . That means that we can define a single font size on the root element, and define all rem units to be a percentage of that. The typography has font-size defined in 1.6rem (16px) and line-height in 1.6 (24px). Milligram uses the font-family Roboto, created by Christian Robertson, and provided by Google.
-                  </p>
-                <ul><li>Unordered list item 1</li><li>Unordered list item 2</li></ul></div>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
+
+            <div class="content">
+                <div class="title m-b-md">
+                    Laravel
+                </div>
+
+                <div class="links">
+                    <a href="https://laravel.com/docs">Docs</a>
+                    <a href="https://laracasts.com">Laracasts</a>
+                    <a href="https://laravel-news.com">News</a>
+                    <a href="https://blog.laravel.com">Blog</a>
+                    <a href="https://nova.laravel.com">Nova</a>
+                    <a href="https://forge.laravel.com">Forge</a>
+                    <a href="https://vapor.laravel.com">Vapor</a>
+                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                </div>
             </div>
-          
-        </section>
-        <section class="container">
-            <h3 class="title">Typography</h3>
-            <p class="description">CSS3 introduces a few new units, including the <code>rem</code> unit, which stands for <em>"root em"</em>. The <code>rem</code> unit is relative to the font-size of the root element <code>html</code> . That means that we can define a single font size on the root element, and define all <code>rem</code> units to be a percentage of that. The typography has <code>font-size</code> defined in 1.6rem (16px) and <code>line-height</code> in 1.6 (24px). <strong>Milligram</strong> uses the <code>font-family</code><a href="https://www.google.com/fonts/specimen/Roboto" title="Roboto by Christian Robertson" target="_blank" rel="noopener"> Roboto</a>, created by <u>Christian Robertson</u>, and provided by Google.</p>
-        </section>
+        </div>
     </body>
 </html>
