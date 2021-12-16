@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,4 +19,13 @@ Route::get('/', function () {
 
 Route::get('upload', function() {
     return view('upload');
-});
+})->name('upload');
+
+Route::post('upload', function(Request $request) {
+    if($request->hasfile('fileUpload')){
+        $file = $request->file('fileUpload');
+        $name = $file->getClientOriginalName();
+        $file->move('images/upload',$name);
+    }
+    return redirect()->route('upload');
+})->name('file.upload');
