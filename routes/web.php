@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Events\UserUpload;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,8 +26,13 @@ Route::get('upload', function() {
 Route::post('upload', function(Request $request) {
     if($request->hasfile('fileUpload')){
         $file = $request->file('fileUpload');
-        $name = $file->getClientOriginalName();
+        $name = uniqid('test').$file->getClientOriginalName();
         $file->move('images/upload',$name);
+        //add event
+
+        // Log::info('user uploaded file : ',['file location :', 'images/upload/'.$name]);
+        event(new UserUpload($name));
     }
+    
     return redirect()->route('upload');
 })->name('file.upload');
