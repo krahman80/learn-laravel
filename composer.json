@@ -15,7 +15,8 @@
         "laravel/framework": "^7.29",
         "laravel/passport": "*",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "*"
+        "laravel/ui": "*",
+        "wackystudio/laravel-test-watcher": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

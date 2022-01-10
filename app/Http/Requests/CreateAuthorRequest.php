@@ -27,7 +27,7 @@ class CreateAuthorRequest extends FormRequest
             'data' => 'required|array',
             'data.type' => 'required|in:authors',
             'data.attributes' => 'required|array',
-            'data.attributes' => 'required|string',
+            'data.attributes.name' => 'required|string',
         ];
     }
 }
