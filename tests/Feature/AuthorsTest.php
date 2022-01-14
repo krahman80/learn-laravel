@@ -22,7 +22,10 @@ class AuthorsTest extends TestCase
         $user = factory(User::class)->create();
         Passport::actingAs($user);
         
-        $this->getJson('/api/v1/authors/1')
+        $this->getJson('/api/v1/authors/1', [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json',
+        ])
             ->assertStatus(200)
             ->assertJson([
                 "data" => [
@@ -36,7 +39,104 @@ class AuthorsTest extends TestCase
                 ]
             ]);
     }
+
+    /*
+    public function it_validates_that_the_type_member_is_given_where_creating_an_author()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+        
+        $this->postJson('/api/v1/authors',[
+            'data' => [
+                'type' => '',
+                'attributes' => [
+                    'name' => 'John Doe',
+                ]
+            ]
+        ])->assertStatus(422)
+        ->assertJson([
+            'errors' => [
+                [
+                    'title' => 'Validation Error',
+                    'details' => 'The data.type field is required.',
+                    'source' => [
+                        'pointer' => '/data/type',
+                    ]
+                ]
+            ]
+        ]);
+
+        $this->assertDatabaseMissing('authors', [
+            'id' => 1,
+            'name' => 'John Doe'
+        ]);
+    }
+    */
     
+    /*
+    public function it_validates_that_the_type_member_has_the_value_of_authors_when_creating_an_author() 
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+
+        $this->postJson('/api/v1/authors',[
+            'data' => [
+                'type' => 'author',
+                'attributes' => [
+                    'name' => 'John Doe',
+                ]
+            ]
+        ])->assertStatus(422)
+        ->assertJson([
+            'errors' => [
+                [
+                    'title' => 'Validation Error',
+                    'details' => 'The selected data.type is invalid.',
+                    'source' => [
+                        'pointer' => '/data/type',
+                    ]
+                ]
+            ]
+        ]);
+
+        $this->assertDatabaseMissing('authors', [
+            'id' => 1,
+            'name' => 'John Doe'
+        ]);
+    }
+    */
+
+    /*
+    public function it_validates_that_the_attributes_member_has_been_given_when_creating_an_author()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+
+        $this->postJson('/api/v1/authors',[
+            'data' => [
+                'type' = 'authors',
+            ]
+        ])->assertStatus(422)
+        ->assertJson([
+            'errors' => [
+                [
+                    'title' => 'Validation Error',
+                    'details' => 'The data.attributes field is required.',
+                    'source' => [
+                        'pointer' => '/data/attributes',
+                    ]
+                ]
+            ]
+        ]);
+
+        $this->assertDatabaseMising('authors', [
+            'id' => 1,
+            'name' => 'John Doe'
+        ]);
+
+    }
+    */
+
     /**
      * @test
      * @watch
@@ -47,7 +147,10 @@ class AuthorsTest extends TestCase
         Passport::actingAs($user);
         $authors = factory(Author::class,3)->create();
 
-        $this->getJson('/api/v1/authors')
+        $this->getJson('/api/v1/authors', [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json',
+        ])
              ->assertStatus(200)
              ->assertJson([
                  "data" => [
@@ -98,6 +201,9 @@ class AuthorsTest extends TestCase
                     'name' => 'John Doe',
                 ]
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json',
         ])
         ->assertStatus(201)
         ->assertJson([
@@ -138,6 +244,9 @@ class AuthorsTest extends TestCase
                     'name' => 'Jane Doe',
                 ]
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json',
         ])->assertStatus(200)
         ->assertJson([
             'data' => [

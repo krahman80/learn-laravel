@@ -6,12 +6,8 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class BooksCollection extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
+    // public $collects = BooksResource::class;
+
     public function toArray($request)
     {
         return [

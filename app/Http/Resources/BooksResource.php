@@ -22,6 +22,16 @@ class BooksResource extends JsonResource
                 'description' => $this->description,
                 'publication_year' => $this->publication_year,
                 'created_at' => $this->updated_at,
+                'updated_at' => $this->updated_at,
+            ],
+            'relationships' => [
+                'authors' => [
+                    'links' => [
+                        'self' => route('books.relationships.authors', ['id' => $this->id]),
+                        'related' => route('books.authors', ['id' => $this->id],
+                        'data' => AuthorsIdentifierResource::collection($this->authors))
+                    ],
+                ]
             ]
         ];
     }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Http\Requests\CreateBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Http\Request;
-use App\Resources\BooksResource;
-use App\Resources\BooksCollection;
+use App\Http\Resources\BooksResource;
+
+use Spatie\QueryBuilder\QueryBuilder;
 
 class BooksController extends Controller
 {
@@ -16,8 +19,13 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
-        return new BooksCollection($books);
+        $books = QueryBuilder::for(Book::class)->allowedSorts([
+            'title',
+            'publication_year',
+            'created_at',
+            'updated_at',
+        ])->jsonPaginate();
+        return BooksResource::collection($books);
     }
 
     /**
@@ -26,9 +34,19 @@ class BooksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateBookRequest $request)
     {
-        //
+        $book = Book::create([
+            'title' => $request->input('data.attributes.title'),
+            'description' => $request->input('data.attributes.description'),
+            'publication_year' => $request->input('data.attributes.publication_year'),
+        ]);
+        
+        return (new BooksResource($book))
+        ->response()
+        ->header('Location', route('books.show',[
+            'book' => $book,
+        ]));
     }
 
     /**
@@ -49,9 +67,10 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+        $book->update($request->input('data.attributes'));
+        return new BooksResource($book);
     }
 
     /**
@@ -62,6 +81,7 @@ class BooksController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return response(null,204);
     }
 }

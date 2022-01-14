@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
-class AuthorsTableSeeder extends Seeder
+use App\Author;
+class AuthorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class AuthorsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Author::class, 5)->create();
+        factory(Author::class, 10)->create();
     }
 }
