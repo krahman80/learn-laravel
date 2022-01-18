@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Book;
+use App\Author;
 
 class BookSeeder extends Seeder
 {
@@ -12,6 +13,9 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        factory(Book::class, 10)->create();
+        Author::all()->each(function(Author $author){
+            $books = factory(Book::class,2)->create();
+            $author->books()->sync($books->pluck('id'));
+        });
     }
 }

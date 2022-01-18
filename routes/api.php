@@ -23,10 +23,8 @@ Route::middleware('auth:api')->prefix('v1')->group(function(){
     // Route::get('/authors/{author}', 'AuthorsController@show');
     Route::apiResource('authors','AuthorsController');
     Route::apiResource('books','BooksController');
-    Route::get('books/{book}/relationships/authors', function() {
-        return true;
-    })->name('books.relationships.authors');
-    Route::get('books/{book}/authors', function() {
-        return true;
-    })->name('books.authors');
+    
+    Route::get('books/{book}/relationships/authors', 'BooksAuthorsRelationshipsController@index')->name('books.relationships.authors');
+    
+    Route::get('books/{book}/authors', 'BooksAuthorsRelatedController@index')->name('books.authors');
 });

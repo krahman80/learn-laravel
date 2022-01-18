@@ -17,6 +17,6 @@ class AuthorsIdentifierResource extends JsonResource
         return [
             'id' => (string)$this->id,
             'type' => 'authors',
-        ]
+        ];
     }
 }

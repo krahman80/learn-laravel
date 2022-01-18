@@ -21,18 +21,24 @@ class BooksResource extends JsonResource
                 'title' => $this->title,
                 'description' => $this->description,
                 'publication_year' => $this->publication_year,
-                'created_at' => $this->updated_at,
+                'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
             ],
             'relationships' => [
                 'authors' => [
                     'links' => [
-                        'self' => route('books.relationships.authors', ['id' => $this->id]),
-                        'related' => route('books.authors', ['id' => $this->id],
-                        'data' => AuthorsIdentifierResource::collection($this->authors))
+                        'self' => route('books.relationships.authors', ['book' => $this->id]),
+                        'related' => route('books.authors', ['book' => $this->id]),
+                        'data' => $this->authors->map(function($author){
+                            return [
+                                'id' => $author->id,
+                                'type' => 'authors'
+                            ];
+                        })
                     ],
                 ]
             ]
         ];
     }
+
 }
